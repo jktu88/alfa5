@@ -1,5 +1,6 @@
 package ru.jktu88.alfa.controller;
 
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.server.ServerWebExchange;
@@ -26,6 +27,8 @@ public class AppController implements PromoApi, ReceiptApi {
 
     @Override
     public Mono<ResponseEntity<Void>> setMatrix(Mono<PromoMatrix> body, ServerWebExchange exchange) {
-        return null;
+        return body
+                .map(calculateService::setPromo)
+                .thenReturn(new ResponseEntity<>(HttpStatus.OK));
     }
 }

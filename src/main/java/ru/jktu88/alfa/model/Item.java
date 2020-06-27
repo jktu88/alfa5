@@ -17,15 +17,18 @@ public class Item {
     private String groupId;
     private BigDecimal price;
 
-    public FinalPricePosition toPosition(Integer quantity) {
+    public FinalPricePosition toPosition(Integer quantity, Double discount) {
 
         BigDecimal regularPrice = this.price.multiply(BigDecimal.valueOf(quantity))
+                .setScale(2, RoundingMode.HALF_UP);
+
+        BigDecimal price = regularPrice.multiply(BigDecimal.valueOf(1 - discount))
                 .setScale(2, RoundingMode.HALF_UP);
 
         return new FinalPricePosition()
                 .id(id)
                 .name(name)
                 .regularPrice(regularPrice)
-                .price(regularPrice);
+                .price(price);
     }
 }
