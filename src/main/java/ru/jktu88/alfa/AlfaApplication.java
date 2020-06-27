@@ -34,7 +34,7 @@ public class AlfaApplication {
         try {
             CsvSchema bootstrapSchema = CsvSchema.emptySchema().withHeader();
             CsvMapper mapper = new CsvMapper();
-            File file = new ClassPathResource(fileName).getFile();
+            File file = new File(fileName);
             MappingIterator<T> readValues =
                     mapper.reader(type).with(bootstrapSchema).readValues(file);
             return readValues.readAll();
@@ -46,7 +46,7 @@ public class AlfaApplication {
 
     @Bean
     Map<String, Group> Groups() {
-       return loadObjectList(Group.class, "groups.csv").stream()
+        return loadObjectList(Group.class, "groups.csv").stream()
                 .collect(Collectors.toMap(Group::getId, Function.identity()));
     }
 
